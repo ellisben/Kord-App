@@ -1,7 +1,7 @@
 // AUTO CORRELATION PITCH DETECTOR ALGORITHM
 
-const MIN_RMS = 0.01; // Silence Cut Off
-const PEAK_THRESHOLD_RATIO = 0.5; // Over 50% threshold of first peak
+const MIN_RMS = 0.003; // Silence Cut Off
+const PEAK_THRESHOLD_RATIO = 0.3; // Over 50% threshold of first peak
 
 export function detectPitch(buffer, sampleRate, opts = {}) {
   const minFreq = opts.minFreq ?? 60;   // ~B1
