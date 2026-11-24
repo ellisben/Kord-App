@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles.css">   
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Related Chord Progressions</title>
+
+</head>
+<body>
+
+<h1>Related Chord Progressions</h1>
+
+<h2>Play or hum a note</h2>
+<button id="listenBtn">Start listening</button>
+<p>Heard: <strong id="heard">—</strong> <span id="listenStatus"></span></p>
+
+<label for="chordSelect">Home chord (set by the mic, or choose manually):</label>
+<select id="chordSelect"></select>
+
+<h2>Your chord</h2>
+<div id="selected" class="card big"></div>
+
+<h2>Related chords</h2>
+<div id="related" class="grid"></div>
+
+<h2>Explore progressions</h2>
+<div id="modeTabs" class="tabs">
+  <button data-mode="common" aria-pressed="true">Common</button>
+  <button data-mode="genre" aria-pressed="false">By genre</button>
+  <button data-mode="generator" aria-pressed="false">Experimental</button>
+</div>
+<div id="genreChoices" class="tabs"></div>
+<div id="progressions"></div>
+
+<script src="svguitar.umd.js"></script>
+<script src="scripts.js"></script>
+<script src="progressions.js"></script>
+<script type="module" src="listen.js"></script>
+
+</body>
+</html>

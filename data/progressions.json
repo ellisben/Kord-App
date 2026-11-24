@@ -1,0 +1,88 @@
+{
+  "common": [
+    { "name": "Three-chord staple",  "numerals": ["I", "IV", "V"] },
+    { "name": "Pop favourite",       "numerals": ["I", "V", "vi", "IV"] },
+    { "name": "Fifties classic",     "numerals": ["I", "vi", "IV", "V"] },
+    { "name": "Jazz cadence",        "numerals": ["ii", "V", "I"] },
+    { "name": "Emotional pop",       "numerals": ["vi", "IV", "I", "V"] },
+    { "name": "Blues-style turn",    "numerals": ["I", "IV", "I", "V"] }
+  ],
+
+  "genres": {
+    "Pop": {
+      "blurb": "Built on a small set of chords repeated in loops.",
+      "progressions": [
+        { "numerals": ["I", "V", "vi", "IV"] },
+        { "numerals": ["vi", "IV", "I", "V"] },
+        { "numerals": ["IV", "I", "V", "vi"] },
+        { "numerals": ["I", "vi", "IV", "V"] }
+      ]
+    },
+    "Rock": {
+      "blurb": "Power-chord style, often borrowing the flat seventh (bVII).",
+      "progressions": [
+        { "numerals": ["I", "IV", "V"] },
+        { "numerals": ["I", "bVII", "IV"] },
+        { "numerals": ["I", "IV", "V", "IV"] },
+        { "numerals": ["I", "bVI", "bVII"] }
+      ]
+    },
+    "Blues": {
+      "blurb": "The 12-bar blues uses only I, IV and V (shown here in short form).",
+      "progressions": [
+        { "numerals": ["I", "IV", "V"] },
+        { "numerals": ["I", "IV", "I", "V"] }
+      ]
+    },
+    "Folk & Country": {
+      "blurb": "Simple, open chords that are easy to strum along to.",
+      "progressions": [
+        { "numerals": ["I", "IV", "V"] },
+        { "numerals": ["I", "IV", "I", "V"] },
+        { "numerals": ["I", "V", "vi", "IV"] },
+        { "numerals": ["I", "vi", "IV", "V"] }
+      ]
+    },
+    "Jazz": {
+      "blurb": "Centred on ii-V-I. Real jazz adds 7th chords; these are simplified to triads.",
+      "progressions": [
+        { "numerals": ["ii", "V", "I"] },
+        { "numerals": ["I", "vi", "ii", "V"] },
+        { "numerals": ["iii", "vi", "ii", "V"] },
+        { "numerals": ["vi", "ii", "V", "I"] }
+      ]
+    },
+    "Punk": {
+      "blurb": "Fast, simple and repetitive, with very few chords.",
+      "progressions": [
+        { "numerals": ["I", "IV", "V"] },
+        { "numerals": ["I", "V", "vi", "IV"] },
+        { "numerals": ["vi", "IV", "I", "V"] }
+      ]
+    },
+    "50s Doo-wop": {
+      "blurb": "The I-vi-IV-V loop that defined early rock and roll ballads.",
+      "progressions": [
+        { "numerals": ["I", "vi", "IV", "V"] },
+        { "numerals": ["I", "vi", "ii", "V"] }
+      ]
+    }
+  },
+
+  "pool": [
+    { "numerals": ["I", "ii", "IV", "V"] },
+    { "numerals": ["I", "IV", "ii", "V"] },
+    { "numerals": ["I", "iii", "IV", "V"] },
+    { "numerals": ["I", "IV", "vi", "V"] },
+    { "numerals": ["vi", "V", "IV", "V"] },
+    { "numerals": ["I", "V", "vi", "iii"] },
+    { "numerals": ["IV", "I", "IV", "V"] },
+    { "numerals": ["IV", "V", "I"] },
+    { "numerals": ["vi", "IV", "V"] },
+    { "numerals": ["I", "IV", "vi", "IV"] },
+    { "numerals": ["I", "V", "IV", "V"] },
+    { "numerals": ["ii", "IV", "V"] },
+    { "numerals": ["I", "iii", "vi", "IV"] },
+    { "numerals": ["I", "bVII", "IV", "I"] }
+  ]
+}

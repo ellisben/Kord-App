@@ -1,0 +1,71 @@
+body {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+select {
+  font-size: 18px;
+  padding: 6px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+}
+.big {
+  max-width: 220px;
+}
+li {
+  margin: 4px 0;
+  font-size: 18px;
+}
+.prog {
+  font-weight: bold;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.tabs button, #progressions > button {
+  font-size: 16px;
+  padding: 8px 14px;
+  border: 1px solid #999;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+}
+.tabs button[aria-pressed="true"] {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+.prog-block {
+  margin: 0 0 24px;
+}
+.prog-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.prog-title span {
+  background: #eee;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 14px;
+  margin-right: 4px;
+}
+.prog-chords {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.prog-chords .card {
+  text-align: center;
+}
