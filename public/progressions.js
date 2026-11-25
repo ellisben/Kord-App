@@ -10,10 +10,24 @@ let currentRoot = 0;
 let generated = null;
 let starts = {}; 
 let transitions = {};
+let progIndex = 0;   // which progression is showing on mobile
 
 const progBox = document.getElementById("progressions");
 const genreBox = document.getElementById("genreChoices");
-const modeButtons = document.querySelectorAll("#modeTabs button");
+const MODES = [
+  { key: "common", label: "Common" },
+  { key: "genre", label: "Genre" },
+  { key: "generator", label: "Experimental" }
+];
+let genreKnob = null;
+
+const modeKnob = makeKnob({
+  el: document.getElementById("modeKnob"),
+  readout: document.getElementById("modeReadout"),
+  name: "Progression category",
+  labels: MODES.map(function (m) { return m.label; }),
+  onChange: function (i) { mode = MODES[i].key; progIndex = 0; render(); }
+});
 
 // Numeral to chord structure
 function chordFromNumeral(rootIndex, numeral) {
@@ -57,34 +71,69 @@ function progressionBlock(numerals, label) {
     drawChord(chart, c.index, c.suffix, c.title);
   });
   block.appendChild(row);
+
+  if (MOBILE.matches) {
+    row.classList.add("swipe");
+    row.setAttribute("aria-label", "Chords in this progression. Swipe or use the arrows.");
+    block.appendChild(stepControls(row, chords.length));
+  }
   return block;
+}
+
+// ONE PROGRESSION AT A TIME ON MOBILE (arrows step between progressions)
+
+function addBlocks(items) {
+  if (!MOBILE.matches) {
+    items.forEach(function (p) { progBox.appendChild(progressionBlock(p.numerals, p.label)); });
+    return;
+  }
+
+  if (progIndex >= items.length) progIndex = 0;
+
+  if (items.length > 1) {
+    const nav = document.createElement("div");
+    nav.className = "prog-nav";
+
+    const prev = document.createElement("button");
+    prev.textContent = "\u2039";
+    prev.setAttribute("aria-label", "Previous progression");
+    prev.disabled = progIndex === 0;
+    prev.addEventListener("click", function () { progIndex--; render(); });
+
+    const label = document.createElement("span");
+    label.textContent = "Progression " + (progIndex + 1) + " / " + items.length;
+
+    const next = document.createElement("button");
+    next.textContent = "\u203a";
+    next.setAttribute("aria-label", "Next progression");
+    next.disabled = progIndex === items.length - 1;
+    next.addEventListener("click", function () { progIndex++; render(); });
+
+    nav.appendChild(prev);
+    nav.appendChild(label);
+    nav.appendChild(next);
+    progBox.appendChild(nav);
+  }
+
+  const shown = items[progIndex];
+  progBox.appendChild(progressionBlock(shown.numerals, shown.label));
 }
 
 // CATEGORIES (common, genre, experimental)
 
 function showCommon() {
-  progData.common.forEach(function (p) {
-    progBox.appendChild(progressionBlock(p.numerals, p.name));
-  });
+  addBlocks(progData.common.map(function (p) { return { numerals: p.numerals, label: p.name }; }));
 }
 
 function showGenre() {
   const names = Object.keys(progData.genres);
   if (!genre) genre = names[0];
 
-  names.forEach(function (name) {
-    const b = document.createElement("button");
-    b.textContent = name;
-    b.setAttribute("aria-pressed", String(name === genre));
-    b.addEventListener("click", function () { genre = name; render(); });
-    genreBox.appendChild(b);
-  });
-
   const info = progData.genres[genre];
   const blurb = document.createElement("p");
   blurb.textContent = info.blurb;
   progBox.appendChild(blurb);
-  info.progressions.forEach(function (p) { progBox.appendChild(progressionBlock(p.numerals)); });
+  addBlocks(info.progressions.map(function (p) { return { numerals: p.numerals }; }));
 }
 
 function showGenerator() {
@@ -147,8 +196,8 @@ function generateProgression() {
 function render() {
   if (!progData) return;
   progBox.innerHTML = "";
-  genreBox.innerHTML = "";
-  modeButtons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+  genreBox.classList.toggle("off", mode !== "genre");
+  if (genreKnob) genreKnob.setEnabled(mode === "genre");
   if (mode === "common") showCommon();
   else if (mode === "genre") showGenre();
   else showGenerator();
@@ -157,6 +206,13 @@ function render() {
 function setProgressionData(data) {
   progData = data;
   learn();
+  genreKnob = makeKnob({
+    el: document.getElementById("genreKnob"),
+    readout: document.getElementById("genreReadout"),
+    name: "Genre",
+    labels: Object.keys(data.genres),
+    onChange: function (i, label) { genre = label; progIndex = 0; render(); }
+  });
 }
 
 function showProgressions(rootIndex) {
@@ -164,6 +220,4 @@ function showProgressions(rootIndex) {
   render();
 }
 
-modeButtons.forEach(function (b) {
-  b.addEventListener("click", function () { mode = b.dataset.mode; render(); });
-});
+MOBILE.addEventListener("change", render);

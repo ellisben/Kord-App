@@ -1,4 +1,4 @@
-  const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
   const scale = [
     { step: 0,  suffix: ""    }, // I
@@ -76,6 +76,9 @@
   const select = document.getElementById("chordSelect");
   const selectedBox = document.getElementById("selected");
   const relatedBox = document.getElementById("related");
+  const pickerBox = document.getElementById("relatedPicker");
+  const DEGREE_LABELS = ["I", "ii", "iii", "IV", "V", "vi", "vii\u00b0"];
+  let relatedDegree = 1;
 
   notes.forEach(function (note) {
     const option = document.createElement("option");
@@ -94,19 +97,28 @@
   function update() {
     const rootIndex = notes.indexOf(select.value);
     selectedBox.innerHTML = "";
-    relatedBox.innerHTML = "";
 
     drawChord(selectedBox, rootIndex, "");
 
+    showRelated(rootIndex);
+    showProgressions(rootIndex); 
+  }
+
+  function showRelated(rootIndex) {
+    relatedBox.innerHTML = "";
+    pickerBox.innerHTML = "";
+
     for (let d = 1; d < scale.length; d++) {
       const c = chordAt(rootIndex, d);
-      const card = document.createElement("div");
-      card.className = "card";
-      relatedBox.appendChild(card);
-      drawChord(card, c.index, c.suffix);
+      const b = document.createElement("button");
+      b.innerHTML = "<small>" + DEGREE_LABELS[d] + "</small>" + chordName(c);
+      b.setAttribute("aria-pressed", String(d === relatedDegree));
+      b.addEventListener("click", function () { relatedDegree = d; showRelated(rootIndex); });
+      pickerBox.appendChild(b);
     }
 
-    showProgressions(rootIndex); 
+    const shown = chordAt(rootIndex, relatedDegree);
+    drawChord(relatedBox, shown.index, shown.suffix);
   }
 
   select.addEventListener("change", update);

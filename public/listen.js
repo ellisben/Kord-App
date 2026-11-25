@@ -1,6 +1,7 @@
 // LISTENER 
 
 import { detectPitch, freqToNote } from "./detector.js";
+import { createMeter } from "./meter.js";
 
 const btn = document.getElementById("listenBtn");
 const heardEl = document.getElementById("heard");
@@ -10,6 +11,7 @@ const freqEl = document.getElementById("freqHz");
 const heldEl = document.getElementById("heldHz");
 const logEl = document.getElementById("freqLog");
 const clearBtn = document.getElementById("clearLog");
+const meter = createMeter(document.getElementById("meter"));
 
 const BUFFER_SIZE = 2048;
 const CHECK_EVERY_MS = 80;
@@ -41,14 +43,17 @@ async function start() {
   analyser.fftSize = BUFFER_SIZE;
   audioCtx.createMediaStreamSource(stream).connect(analyser);
   buffer = new Float32Array(analyser.fftSize);
+  meter.start(analyser, audioCtx.sampleRate);
 
   timer = setInterval(listen, CHECK_EVERY_MS);
   btn.textContent = "Stop listening";
+  btn.setAttribute("aria-pressed", "true");
   statusEl.textContent = "Listening... (" + audioCtx.sampleRate + " Hz sample rate)";
 }
 
 function stop() {
   clearInterval(timer);
+  meter.stop();
   stream.getTracks().forEach(function (t) { t.stop(); });
   audioCtx.close();
   stream = null;
@@ -58,6 +63,7 @@ function stop() {
   readings = [];
   freqEl.textContent = "—";
   btn.textContent = "Start listening";
+  btn.setAttribute("aria-pressed", "false");
   statusEl.textContent = "Mic off.";
 }
 

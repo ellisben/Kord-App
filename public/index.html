@@ -4,40 +4,79 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles.css">   
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#c8dfe8">
 <title>Related Chord Progressions</title>
 
 </head>
 <body>
 
-<h1>Related Chord Progressions</h1>
+<header class="menubar">
+  <h1>Related Chord Progressions</h1>
+</header>
 
-<h2>Play or hum a note</h2>
-<button id="listenBtn">Start listening</button>
-<p>Heard: <strong id="heard">—</strong> <span id="listenStatus"></span></p>
-<p>Live frequency: <strong id="freqHz">—</strong></p>
-<p>Last held reading: <strong id="heldHz">—</strong> <button id="clearLog">Clear log</button></p>
-<ul id="freqLog"></ul>
+<section class="transport" aria-label="Microphone">
+  <button id="listenBtn" aria-pressed="false">Start listening</button>
+  <div class="lcd">
+    <span class="lcd-label">Heard</span>
+    <strong id="heard">—</strong>
+    <span id="freqHz">—</span>
+  </div>
+  <span id="listenStatus" class="status"></span>
+</section>
 
-<label for="chordSelect">Home chord (set by the mic, or choose manually):</label>
-<select id="chordSelect"></select>
+<main class="console">
+  <section class="strip s-key">
+    <label class="cap" for="chordSelect">Home chord</label>
+    <select id="chordSelect"></select>
+    <div id="selected" class="window"></div>
+  </section>
 
-<h2>Your chord</h2>
-<div id="selected" class="card big"></div>
+  <section class="strip s-related">
+    <div class="cap">Related chord</div>
+    <div id="related" class="window"></div>
+  </section>
 
-<h2>Related chords</h2>
-<div id="related" class="grid"></div>
+  <div id="relatedPicker" class="strip s-picker" role="group" aria-label="Choose related chord"></div>
 
-<h2>Explore progressions</h2>
-<div id="modeTabs" class="tabs">
-  <button data-mode="common" aria-pressed="true">Common</button>
-  <button data-mode="genre" aria-pressed="false">By genre</button>
-  <button data-mode="generator" aria-pressed="false">Experimental</button>
-</div>
-<div id="genreChoices" class="tabs"></div>
-<div id="progressions"></div>
+  <section class="strip s-meter">
+    <div class="cap">Input</div>
+    <canvas id="meter" aria-label="Microphone level and spectrum"></canvas>
+    <div class="scale"><span>Level</span><span>80 Hz – 4 kHz</span></div>
+  </section>
+</main>
+
+<section class="progs">
+  <div class="progs-head">
+    <h2 class="cap">Progressions</h2>
+    <div class="knobs">
+      <div class="knob-wrap">
+        <div id="modeReadout" class="readout"></div>
+        <div id="modeKnob" class="knob"></div>
+        <div class="knob-label">Category</div>
+      </div>
+      <div id="genreChoices" class="knob-wrap off">
+        <div id="genreReadout" class="readout"></div>
+        <div id="genreKnob" class="knob"></div>
+        <div class="knob-label">Genre</div>
+      </div>
+    </div>
+  </div>
+  <div id="progressions"></div>
+</section>
+
+<section class="log" aria-label="Frequency log">
+  <div class="cap">Held reading</div>
+  <div class="log-row">
+    <strong id="heldHz">—</strong>
+    <button id="clearLog">Clear log</button>
+  </div>
+  <ul id="freqLog"></ul>
+</section>
 
 <script src="svguitar.umd.js"></script>
 <script src="scripts.js"></script>
+<script src="knobs.js"></script>
+<script src="swipe.js"></script>
 <script src="progressions.js"></script>
 <script type="module" src="listen.js"></script>
 
